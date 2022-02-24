@@ -11,6 +11,6 @@ extern volatile int tail;
 extern volatile int count;
 
 extern int pushQueue(int data);
-extern int popQueue(void);
+extern int popQueue(int* top);
 
 #endif // QUEUE_H_

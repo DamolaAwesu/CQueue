@@ -19,11 +19,11 @@ static int _insert(int data){
     return 0;
 }
 
-int popQueue(){
+int popQueue(int *top){
     int idx = head;
     if(!QUEUE_EMPTY)
     {
-        int top = queue[head];
+        *top = queue[head];
         while(idx < (count-1))
         {
             queue[idx] = queue[idx+1];
@@ -31,20 +31,20 @@ int popQueue(){
         }
         count--;
         tail--;
-        return top;
+        return 0;
     }
     else{
         printf("Queue Empty!\n");
     }
-    return 0;
+    return -1;
 }
 
 int pushQueue(int data){
-    int retVal = 0;
+    int retVal = 0; int temp;
     if(!QUEUE_FULL)
         retVal = _insert(data);
     else{
-        popQueue();
+        popQueue(&temp);
         retVal = _insert(data);
     }
     if(retVal != 0)
