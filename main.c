@@ -1,15 +1,8 @@
 #include <stdio.h>
+#include "queue.h"
 
-#define MAX_SIZE 10
-
-int queue[MAX_SIZE];
-int pushQueue(int data);
-int popQueue(void);
-
-volatile int head = 0;
-volatile int tail = -1;
-volatile int count = 0;
-
+long fibonacci(int n);
+extern volatile int count;
 int main(){
     pushQueue(5);
     pushQueue(10);
@@ -23,56 +16,38 @@ int main(){
     pushQueue(55);
     pushQueue(30);
     pushQueue(96);
+    popQueue();
+    pushQueue(30);
+    popQueue();
+    pushQueue(96);
     printf("Count: %d\n", count);
     for(int i = 0; i < count;i++)
         printf("Element %d: %d\n",i,queue[i]);
+    //fibonacci(30);
+    printf("Tail = %d\n",tail);
+    printf("Head = %d\n",head);
 
     return 0;
 }
 
-static int _queueFull(){
-    return (count == MAX_SIZE);
-}
-
-static int _queueEmpty(){
-    return (count == 0);
-}
-
-static int _insert(int data){
-    if(tail == MAX_SIZE-1)
-        tail = -1;
-    tail++;
-    queue[tail] = data;
-    count++;
-    return 0;
-}
-
-int popQueue(){
-    if(!_queueEmpty()){
-        int top = queue[head];
-        head++;
-        if(head == MAX_SIZE)
-            head = 0;
-        count--;
-        return top;
-    }
-    else{
-        printf("Queue Empty!\n");
-    }
-    return 0;
-}
-
-int pushQueue(int data){
-    int retVal = 0;
-    if(!_queueFull())
-        retVal = _insert(data);
-    else{
-        popQueue();
-        retVal = _insert(data);
-    }
-    if(retVal != 0)
-        return -1;
+long fibonacci(int n)
+{
+    int prev_result[] = {0,1};
+    int result = 0;int i = 2;
+    printf("%d " ,prev_result[0]);
+    printf("%d " ,prev_result[1]);
+    if (n < 2)
+        printf("%d\n " ,prev_result[0]+prev_result[1]);
     else
-        printf("Data added to Queue; Slots left = %d\n", MAX_SIZE-count);
+    {
+        while (i < n)
+        {
+            result = prev_result[0]+prev_result[1];
+            printf("%d ",result);
+            prev_result[0] = prev_result[1];
+            prev_result[1] = result;
+            i++;
+        }
+    }
     return 0;
 }
