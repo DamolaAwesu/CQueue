@@ -1,31 +1,40 @@
 #include <stdio.h>
 #include "queue.h"
 
-extern volatile int count;
 int main(){
-    int top = 0;
-    pushQueue(5);
-    pushQueue(10);
-    pushQueue(87);
-    pushQueue(14);
-    pushQueue(7);
-    pushQueue(8);
-    pushQueue(54);
-    pushQueue(100);
-    pushQueue(85);
-    pushQueue(55);
-    pushQueue(30);
-    pushQueue(96);
-    popQueue(&top);
-    pushQueue(30);
-    popQueue(&top);
-    pushQueue(96);
-    printf("Count: %d\n", count);
-    for(int i = 0; i < count;i++)
-        printf("Element %d: %d\n",i,queue[i]);
-    printf("Tail = %d\n",tail);
-    printf("Head = %d\n",head);
-    printf("Last popped value = %d\n",top);
+    Std_ReturnType retVal = E_OK;
+    int buf = 0;
+    #ifdef USE_HEAP
+    Queue_T* q = createQueue(10);
+    Queue_T* q2 = createQueue(5);
+    for(int i = 0; i < q->queueSize; i++)
+    {
+        retVal = q->queueInsert(q,i*20);
+        printf("Val in queue = %d\n",q->queuePtr[i]);
+    }
+    for(int i = 0; i < 5; i++)
+    {
+        retVal = q->queuePop(q,&buf);
+        printf("Val popped = %d\n",buf);
+    }
+    printf("Current count = %d\n",q->qcount);
+    #else
+    Queue_T q = createQueue(10);
+    Queue_T q2 = createQueue(5);
+    for(int i = 0; i < q.queueSize; i++)
+    {
+        retVal = q.queueInsert(&q,i*20);
+        printf("Val in queue = %d\n",q.queuePtr[i]);
+    }
+    for(int i = 0; i < 5; i++)
+    {
+        retVal = q.queuePop(&q,&buf);
+        printf("Val popped = %d\n",buf);
+    }
+    printf("Current count = %d\n",q.qcount);
 
+    #endif
     return 0;
 }
+
+
