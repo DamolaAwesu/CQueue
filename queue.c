@@ -32,7 +32,7 @@ static int _insert(Queue_T*q, int data){
 */
 Std_ReturnType popQueue(Queue_T* q, int *top){
     int idx = 0;
-    printf("%d\n",q->queuePtr[0]);
+    //printf("%d\n",q->queuePtr[0]);        //uncomment to debug issue in static alloc mode
     if(!QUEUE_EMPTY(q->qcount))
     {
         *top = q->queuePtr[0];
@@ -62,17 +62,18 @@ Std_ReturnType popQueue(Queue_T* q, int *top){
 **************************************************************
 */
 Std_ReturnType pushQueue(Queue_T* q,int data){
-    int retVal = 0; int temp;
+    Std_ReturnType retVal = E_OK;
+    int temp;
     if(!QUEUE_FULL(q->qcount,q->queueSize))
         retVal = _insert(q,data);
     else{
         popQueue(q,&temp);
         retVal = _insert(q,data);
     }
-    if(retVal != 0)
-        return -1;
+    if(retVal != E_OK)
+        return E_NOT_OK;
 
-    return 0;
+    return E_OK;
 }
 
 #ifdef USE_HEAP
