@@ -8,6 +8,7 @@
 
 #include "queue.h"
 
+
 /**
 * Private function
 */
@@ -109,16 +110,14 @@ Queue_T* createQueue(int nbElements){
 *
 **************************************************************
 */
-Queue_T createQueue(int nbElements){
-    int arr[nbElements];
+Queue_T createQueue(){
     Queue_T newQueue;
-    newQueue.queueSize = nbElements;
+    newQueue.queueSize = qSIZE;
     newQueue.queueInsert = pushQueue;
     newQueue.queuePop = popQueue;
     newQueue.head = 0;
     newQueue.tail = -1;
     newQueue.qcount = 0;
-    newQueue.queuePtr = arr;
 
     return newQueue;
 }
